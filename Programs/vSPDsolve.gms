@@ -438,19 +438,19 @@ Scalars
 *=====================================================================================
 
 * If input file does not exist then go to the next input file
-$if not exist "%inputPath%\%vSPDinputData%.gdx" $goto nextInput
+$if not exist "%inputPath%/%vSPDinputData%.gdx" $goto nextInput
 
 * Load trading period to be solved
 * If scarcity pricing situation exists --> load and solve all trading periods
 $onmulti
-$if %scarcityExists%==1 $gdxin "%inputPath%\%vSPDinputData%.gdx"
+$if %scarcityExists%==1 $gdxin "%inputPath%/%vSPDinputData%.gdx"
 $if %scarcityExists%==0 $gdxin "vSPDPeriod.gdx"
 $load i_tradePeriod i_dateTime
 $gdxin
 
 
 * Call the GDX routine and load the input data:
-$gdxin "%inputPath%\%vSPDinputData%.gdx"
+$gdxin "%inputPath%/%vSPDinputData%.gdx"
 * Sets
 $load i_offer i_trader i_bid i_node i_bus i_branch i_branchConstraint i_ACnodeConstraint i_MnodeConstraint
 $load i_GenericConstraint i_type1MixedConstraint i_type2MixedConstraint
@@ -474,7 +474,7 @@ $load i_tradePeriodGenericILReserveBidConstraintFactors i_tradePeriodGenericBran
 $gdxin
 
 * New risk group sets
-$if %riskGroup%==1 $gdxin "%inputPath%\%vSPDinputData%.gdx"
+$if %riskGroup%==1 $gdxin "%inputPath%/%vSPDinputData%.gdx"
 $if %riskGroup%==0 $gdxin "vSPDPeriod.gdx"
 $load i_riskGroup
 $load riskGroupOffer = i_tradePeriodRiskGroup
@@ -516,7 +516,7 @@ useMixedConstraint(tp)
     = 1 $ { sum[t1MixCstr$i_tradePeriodType1MixedConstraint(tp,t1MixCstr), 1]
         and (suppressMixedConstraint = 0) } ;
 
-put_utility temp 'gdxin' / '%inputPath%\%vSPDinputData%.gdx' ;
+put_utility temp 'gdxin' / '%inputPath%/%vSPDinputData%.gdx' ;
 
 * Primary secondary offer in use from 01 May 2012'
 if(inputGDXGDate >= jdate(2012,05,01),
@@ -1649,8 +1649,8 @@ o_offerEnergy_TP(dt,o) = 0;
 
 
 * TN - Pivot or demand analysis begin
-$Ifi %opMode%=='PVT' $include "Pivot\vSPDSolvePivot_1.gms"
-$Ifi %opMode%=='DPS' $include "Demand\vSPDSolveDPS_1.gms"
+$Ifi %opMode%=='PVT' $include "Pivot/vSPDSolvePivot_1.gms"
+$Ifi %opMode%=='DPS' $include "Demand/vSPDSolveDPS_1.gms"
 * TN - Pivot or demand analysis begin end
 
 *=====================================================================================
@@ -1808,8 +1808,8 @@ While ( Sum[ tp $ unsolvedPeriod(tp), 1 ],
 *   7c. Updating the variable bounds before model solve ------------------------
 
 * TN - Pivot or Demand Analysis - revise input data
-$Ifi %opMode%=='PVT' $include "Pivot\vSPDSolvePivot_2.gms"
-$Ifi %opMode%=='DPS' $include "Demand\vSPDSolveDPS_2.gms"
+$Ifi %opMode%=='PVT' $include "Pivot/vSPDSolvePivot_2.gms"
+$Ifi %opMode%=='DPS' $include "Demand/vSPDSolveDPS_2.gms"
 * TN - Pivot or Demand Analysis - revise input data end
 
 *======= GENERATION, DEMAND AND LOAD FORECAST EQUATIONS ========================
@@ -2577,10 +2577,10 @@ $offtext
 *   6g. Collect and store results of solved periods into output parameters -----
 * Note: all the price relating outputs such as costs and revenues are calculated in section 7.b
 
-$iftheni.PeriodReport %opMode%=='FTR' $include "FTRental\vSPDSolveFTR_3.gms"
-$elseifi.PeriodReport %opMode%=='DWH' $include "DWmode\vSPDSolveDWH_3.gms"
-$elseifi.PeriodReport %opMode%=='PVT' $include "Pivot\vSPDSolvePivot_3.gms"
-$elseifi.PeriodReport %opMode%=='DPS' $include "Demand\vSPDSolveDPS_3.gms"
+$iftheni.PeriodReport %opMode%=='FTR' $include "FTRental/vSPDSolveFTR_3.gms"
+$elseifi.PeriodReport %opMode%=='DWH' $include "DWmode/vSPDSolveDWH_3.gms"
+$elseifi.PeriodReport %opMode%=='PVT' $include "Pivot/vSPDSolvePivot_3.gms"
+$elseifi.PeriodReport %opMode%=='DPS' $include "Demand/vSPDSolveDPS_3.gms"
 
 $else.PeriodReport
 *   Normal vSPD run post processing for reporting
@@ -3243,7 +3243,7 @@ $ifthen.ScarcityExists %scarcityExists%==1
 * 8a. Check if scarcity pricing situation is applied --------------------------
 putclose runlog 'Scarcity situation exists. ';
 
-$gdxin "%inputPath%\%vSPDinputData%.gdx"
+$gdxin "%inputPath%/%vSPDinputData%.gdx"
 $load i_tradePeriodScarcitySituationExists i_tradePeriodGWAPFloor
 $load i_tradePeriodGWAPCeiling i_tradePeriodGWAPThreshold
 $load i_tradePeriodGWAPCountForAvg i_tradePeriodGWAPPastDaysAvg
@@ -3405,7 +3405,7 @@ $endif.ScarcityExists
 * 8b. Calculating price-relating outputs --------------------------------------
 
 $iftheni.PriceRelatedOutputs %opMode%=='DWH'
-$elseifi.PriceRelatedOutputs %opMode%=='FTR' $include "FTRental\vSPDSolveFTR_3a.gms"
+$elseifi.PriceRelatedOutputs %opMode%=='FTR' $include "FTRental/vSPDSolveFTR_3a.gms"
 $else.PriceRelatedOutputs
 loop(i_dateTimeTradePeriodMap(dt,tp),
 
@@ -3544,10 +3544,10 @@ $endif.vSPDscarcity
 * 9. Write results to CSV report files and GDX files
 *=====================================================================================
 * TN - Pivot analysis end
-$iftheni.Output %opMode%=='PVT' $include "Pivot\vSPDSolvePivot_4.gms"
-$elseifi.Output %opMode%=='DPS' $include "Demand\vSPDSolveDPS_4.gms"
-$elseifi.Output %opMode%=='FTR' $include "FTRental\vSPDSolveFTR_4.gms"
-$elseifi.Output %opMode%=='DWH' $include "DWmode\vSPDSolveDWH_4.gms"
+$iftheni.Output %opMode%=='PVT' $include "Pivot/vSPDSolvePivot_4.gms"
+$elseifi.Output %opMode%=='DPS' $include "Demand/vSPDSolveDPS_4.gms"
+$elseifi.Output %opMode%=='FTR' $include "FTRental/vSPDSolveFTR_4.gms"
+$elseifi.Output %opMode%=='DWH' $include "DWmode/vSPDSolveDWH_4.gms"
 $else.Output                   $include "vSPDreport.gms"
 $endif.Output
 
@@ -3560,4 +3560,4 @@ putclose runlog 'Case: %vSPDinputData% is finished in ',timeElapsed,'(secs)'/ ;
 $label nextInput
 
 * Post a progress message for use by EMI.
-$if not exist "%inputPath%\%vSPDinputData%.gdx" putclose runlog 'The file %inputPath%\%vSPDinputData%.gdx could not be found (', system.time, ').' // ;
+$if not exist "%inputPath%/%vSPDinputData%.gdx" putclose runlog 'The file %inputPath%/%vSPDinputData%.gdx could not be found (', system.time, ').' // ;

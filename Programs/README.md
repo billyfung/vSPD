@@ -13,3 +13,9 @@ Files that deal with filenames:
 - vSPDreportSetup.gms
 - runvSPD.gms
 - vSPDperiod.gms
+- vSPDreport.gms
+
+Will need to change all the msdos commands to unix commands if applicable
+- copy
+- erase
+- move
