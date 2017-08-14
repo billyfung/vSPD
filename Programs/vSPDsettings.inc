@@ -5,9 +5,9 @@ $eolcom !
 *+++ Paths +++
 $setglobal runName                       Test
 $setglobal programPath                   '%system.fp%'
-$setglobal inputPath                     '%system.fp%..\Input\'
-$setglobal ovrdPath                      '%system.fp%..\Override\'
-$setglobal outputPath                    '%system.fp%..\Output\'
+$setglobal inputPath                     '%system.fp%../Input/'
+$setglobal ovrdPath                      '%system.fp%../Override/'
+$setglobal outputPath                    '%system.fp%../Output/'
 
 $setglobal vSPDinputOvrdData             'excelOverrides'  ! Name of override file
 
