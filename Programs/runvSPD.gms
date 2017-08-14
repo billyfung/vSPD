@@ -65,28 +65,28 @@ $if errorlevel 1     $abort +++ Check vSPDmodel.lst for errors +++
 execute 'if exist "%outputPath%%runName%" rmdir "%outputPath%%runName%" /s /q';
 execute 'if exist "%programPath%lst"  rmdir "%programPath%lst" /s /q';
 execute 'mkdir "%programPath%lst"';
-execute 'mkdir "%outputPath%%runName%\Programs"';
-execute 'copy /y vSPD*.inc "%outputPath%%runName%\Programs"'
-execute 'copy /y *.gms "%outputPath%%runName%\Programs"'
+execute 'mkdir "%outputPath%%runName%/Programs"';
+execute 'copy /y vSPD*.inc "%outputPath%%runName%/Programs"'
+execute 'copy /y *.gms "%outputPath%%runName%/Programs"'
 
 $ifthen exist "%ovrdPath%%vSPDinputOvrdData%.gdx"
-  execute 'mkdir  "%outputPath%%runName%\Override"'
-  execute 'copy /y "%ovrdPath%%vSPDinputOvrdData%.gdx" "%outputPath%%runName%\Override"'
+  execute 'mkdir  "%outputPath%%runName%/Override"'
+  execute 'copy /y "%ovrdPath%%vSPDinputOvrdData%.gdx" "%outputPath%%runName%/Override"'
 $endif
 
 $iftheni %opMode%=='PVT'
-  execute 'mkdir  "%outputPath%%runName%\Programs\Pivot"'
-  execute 'copy /y "Pivot\*.*" "%outputPath%%runName%\Programs\Pivot"'
-$elseifi %opMode%=='DPS' execute 'gams Demand\DPSreportSetup.gms'
-  execute 'mkdir  "%outputPath%%runName%\Programs\Demand"'
-  execute 'copy /y "Demand\*.*" "%outputPath%%runName%\Programs\Demand"'
-$elseifi %opMode%=='FTR' execute 'gams FTRental\FTRreportSetup.gms'
-  execute 'copy /y FTR*.inc "%outputPath%%runName%\Programs"'
-  execute 'mkdir  "%outputPath%%runName%\Programs\FTRental"'
-  execute 'copy /y "FTRental\*.*" "%outputPath%%runName%\Programs\FTRental"'
-$elseifi %opMode%=='DWH' execute 'gams DWmode\DWHreportSetup.gms'
-  execute 'mkdir  "%outputPath%%runName%\Programs\DWMode"'
-  execute 'copy /y "DWmode\*.*" "%outputPath%%runName%\Programs\DWMode"'
+  execute 'mkdir  "%outputPath%%runName%/Programs/Pivot"'
+  execute 'copy /y "Pivot/*.*" "%outputPath%%runName%/Programs/Pivot"'
+$elseifi %opMode%=='DPS' execute 'gams Demand/DPSreportSetup.gms'
+  execute 'mkdir  "%outputPath%%runName%/Programs/Demand"'
+  execute 'copy /y "Demand/*.*" "%outputPath%%runName%/Programs/Demand"'
+$elseifi %opMode%=='FTR' execute 'gams FTRental/FTRreportSetup.gms'
+  execute 'copy /y FTR*.inc "%outputPath%%runName%/Programs"'
+  execute 'mkdir  "%outputPath%%runName%/Programs/FTRental"'
+  execute 'copy /y "FTRental/*.*" "%outputPath%%runName%/Programs/FTRental"'
+$elseifi %opMode%=='DWH' execute 'gams DWmode/DWHreportSetup.gms'
+  execute 'mkdir  "%outputPath%%runName%/Programs/DWMode"'
+  execute 'copy /y "DWmode/*.*" "%outputPath%%runName%/Programs/DWMode"'
 $else
 $endif
 
@@ -95,10 +95,10 @@ $endif
 * Initialize reports
 *=====================================================================================
 * Call vSPDreportSetup to establish the report files ready to write results into
-$iftheni %opMode%=='PVT' execute 'gams Pivot\PivotReportSetup.gms'
-$elseifi %opMode%=='DPS' execute 'gams Demand\DPSreportSetup.gms'
-$elseifi %opMode%=='FTR' execute 'gams FTRental\FTRreportSetup.gms'
-$elseifi %opMode%=='DWH' execute 'gams DWmode\DWHreportSetup.gms'
+$iftheni %opMode%=='PVT' execute 'gams Pivot/PivotReportSetup.gms'
+$elseifi %opMode%=='DPS' execute 'gams Demand/DPSreportSetup.gms'
+$elseifi %opMode%=='FTR' execute 'gams FTRental/FTRreportSetup.gms'
+$elseifi %opMode%=='DWH' execute 'gams DWmode/DWHreportSetup.gms'
 $else                    execute 'gams vSPDreportSetup.gms'
 $endif
 
@@ -117,8 +117,8 @@ loop(i_fileName,
 *  Solve the model for the current input file
    put_utility temp 'exec' / 'gams vSPDsolve.gms r=vSPDmodel lo=3 ide=1 Errmsg = 1' ;
 
-*  Copy the vSPDsolve.lst file to i_fileName.lst in ..\Programs\lst\
-   put_utility temp 'shell' / 'copy vSPDsolve.lst "%programPath%"\lst\', i_fileName.tl:0, '.lst' ;
+*  Copy the vSPDsolve.lst file to i_fileName.lst in ../Programs/lst/
+   put_utility temp 'shell' / 'copy vSPDsolve.lst "%programPath%"/lst/', i_fileName.tl:0, '.lst' ;
 
 ) ;
 rep.ap = 1 ;
@@ -132,7 +132,7 @@ $label cleanUp
 execute 'erase "vSPDcase.inc"' ;
 execute 'erase "riskGroup.inc"' ;
 $ifthen %opMode%=='DWH'
-execute 'move /y ProgressReport.txt "%outputPath%%runName%\%runName%_RunLog.txt"';
+execute 'move /y ProgressReport.txt "%outputPath%%runName%/%runName%_RunLog.txt"';
 $else
 execute 'move /y ProgressReport.txt "%outputPath%%runName%"';
 $endif
