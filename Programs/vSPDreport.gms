@@ -31,7 +31,7 @@ o_traderSIRrevenue(trdr) = sum(o_offerTrader(o,trdr), o_offerSIRrevenue(o));
 *=====================================================================================
 
 * System level summary
-File SystemResults    / "%outputPath%\%runName%\%runName%_SystemResults.csv" / ;
+File SystemResults    / "%outputPath%/%runName%/%runName%_SystemResults.csv" / ;
 SystemResults.pc = 5 ;     SystemResults.lw = 0 ;
 SystemResults.pw = 9999 ;  SystemResults.ap = 1 ;
 put SystemResults ;
@@ -43,7 +43,7 @@ loop( dt $ o_FromDateTime(dt),
 ) ;
 
 * Offer level summary
-File  OfferResults     / "%outputPath%\%runName%\%runName%_OfferResults.csv" / ;
+File  OfferResults     / "%outputPath%/%runName%/%runName%_OfferResults.csv" / ;
 OfferResults.pc = 5 ;      OfferResults.lw = 0 ;
 OfferResults.pw = 9999 ;   OfferResults.ap = 1 ;
 put OfferResults ;
@@ -56,7 +56,7 @@ loop( (dt,o,trdr)
 ) ;
 
 * Trader level summary
-File  TraderResults   / "%outputPath%\%runName%\%runName%_TraderResults.csv" / ;
+File  TraderResults   / "%outputPath%/%runName%/%runName%_TraderResults.csv" / ;
 TraderResults.pc = 5 ;     TraderResults.lw = 0 ;
 TraderResults.pw = 9999 ;  TraderResults.ap = 1 ;
 put TraderResults ;
@@ -70,11 +70,11 @@ loop( (dt,trdr)
 
 
 * Trading period level report
-$if not exist "%outputPath%\%runName%\%runName%_BusResults_TP.csv" $goto SkipTP
+$if not exist "%outputPath%/%runName%/%runName%_BusResults_TP.csv" $goto SkipTP
 
 * Trading period summary result
 File
-SummaryResults_TP / "%outputPath%\%runName%\%runName%_SummaryResults_TP.csv" / ;
+SummaryResults_TP / "%outputPath%/%runName%/%runName%_SummaryResults_TP.csv" / ;
 SummaryResults_TP.pc = 5 ;    SummaryResults_TP.lw = 0 ;
 SummaryResults_TP.pw = 9999 ; SummaryResults_TP.ap = 1 ;
 SummaryResults_TP.nd = 5 ;
@@ -93,7 +93,7 @@ loop( dt,
 ) ;
 
 * Trading period island result
-File IslandResults_TP /"%outputPath%\%runName%\%runName%_IslandResults_TP.csv"/;
+File IslandResults_TP /"%outputPath%/%runName%/%runName%_IslandResults_TP.csv"/;
 IslandResults_TP.pc = 5 ;     IslandResults_TP.lw = 0 ;
 IslandResults_TP.pw = 9999 ;  IslandResults_TP.ap = 1 ;
 IslandResults_TP.nd = 5 ;
@@ -117,7 +117,7 @@ loop( (dt,ild) $ o_island(dt,ild),
 
 $ifthen.ScarcityReport %scarcityExists%==1
 * Trading period scarcity results
-File scarcityResults_TP    / "%outputPath%\%runName%\%runName%_ScarcityResults_TP.csv" /;
+File scarcityResults_TP    / "%outputPath%/%runName%/%runName%_ScarcityResults_TP.csv" /;
 scarcityResults_TP.pc = 5 ;      scarcityResults_TP.lw = 0 ;
 scarcityResults_TP.pw = 9999 ;   scarcityResults_TP.ap = 1 ;
 scarcityResults_TP.nd = 3 ;
@@ -133,7 +133,7 @@ loop( (dt,ild) $ o_island(dt,ild),
 $endif.ScarcityReport
 
 * Trading period bus result
-File BusResults_TP   / "%outputPath%\%runName%\%runName%_BusResults_TP.csv" / ;
+File BusResults_TP   / "%outputPath%/%runName%/%runName%_BusResults_TP.csv" / ;
 BusResults_TP.pc = 5 ;
 BusResults_TP.lw = 0 ;
 BusResults_TP.pw = 9999 ;
@@ -147,7 +147,7 @@ loop( o_bus(dt,b),
 ) ;
 
 * Trading period node result
-File NodeResults_TP  /"%outputPath%\%runName%\%runName%_NodeResults_TP.csv" / ;
+File NodeResults_TP  /"%outputPath%/%runName%/%runName%_NodeResults_TP.csv" / ;
 NodeResults_TP.pc = 5 ;
 NodeResults_TP.lw = 0 ;
 NodeResults_TP.pw = 9999 ;
@@ -161,7 +161,7 @@ loop( (dt,n) $ o_node(dt,n),
 ) ;
 
 * Trading period offer result
-File OfferResults_TP  /"%outputPath%\%runName%\%runName%_OfferResults_TP.csv"/ ;
+File OfferResults_TP  /"%outputPath%/%runName%/%runName%_OfferResults_TP.csv"/ ;
 OfferResults_TP.pc = 5 ;      OfferResults_TP.lw = 0 ;
 OfferResults_TP.pw = 9999 ;   OfferResults_TP.ap = 1 ;
 OfferResults_TP.nd = 3 ;
@@ -172,7 +172,7 @@ loop( (dt,o) $ o_offer(dt,o),
 ) ;
 
 * Trading period bid result
-File BidResults_TP    / "%outputPath%\%runName%\%runName%_BidResults_TP.csv" / ;
+File BidResults_TP    / "%outputPath%/%runName%/%runName%_BidResults_TP.csv" / ;
 BidResults_TP.pc = 5 ;     BidResults_TP.lw = 0 ;
 BidResults_TP.pw = 9999 ;  BidResults_TP.ap = 1 ;
 BidResults_TP.nd = 3 ;
@@ -184,7 +184,7 @@ loop( (dt,bd) $ o_bid(dt,bd),
 
 * Trading period reserve result
 File
-ReserveResults_TP /"%outputPath%\%runName%\%runName%_ReserveResults_TP.csv" / ;
+ReserveResults_TP /"%outputPath%/%runName%/%runName%_ReserveResults_TP.csv" / ;
 ReserveResults_TP.pc = 5 ;    ReserveResults_TP.lw = 0 ;
 ReserveResults_TP.pw = 9999 ; ReserveResults_TP.ap = 1 ;
 ReserveResults_TP.nd = 3 ;
@@ -198,7 +198,7 @@ loop( (dt,ild) $ o_island(dt,ild),
 
 * Trading period branch result
 File
-BranchResults_TP  / "%outputPath%\%runName%\%runName%_BranchResults_TP.csv" / ;
+BranchResults_TP  / "%outputPath%/%runName%/%runName%_BranchResults_TP.csv" / ;
 BranchResults_TP.pc = 5 ;     BranchResults_TP.lw = 0 ;
 BranchResults_TP.pw = 9999 ;  BranchResults_TP.ap = 1 ;
 BranchResults_TP.nd = 5 ;
@@ -216,7 +216,7 @@ loop( (dt,br,frB,toB)
 
 * Trading period branch constraint result
 File BrCstrResults_TP
-/ "%outputPath%\%runName%\%runName%_BrConstraintResults_TP.csv" / ;
+/ "%outputPath%/%runName%/%runName%_BrConstraintResults_TP.csv" / ;
 BrCstrResults_TP.pc = 5 ;
 BrCstrResults_TP.lw = 0 ;
 BrCstrResults_TP.pw = 9999 ;
@@ -231,7 +231,7 @@ loop( (dt,brCstr) $ o_brConstraint_TP(dt,brCstr),
 
 * Trading period market node constraint result
 File MnodeCstrResults_TP
-/ "%outputPath%\%runName%\%runName%_MnodeConstraintResults_TP.csv" / ;
+/ "%outputPath%/%runName%/%runName%_MnodeConstraintResults_TP.csv" / ;
 MnodeCstrResults_TP.pc = 5 ;
 MnodeCstrResults_TP.lw = 0 ;
 MnodeCstrResults_TP.pw = 9999 ;
@@ -260,7 +260,7 @@ Scalar zeroTolerance / 0.000001 / ;
 
 
 * Audit - branch loss result
-File branchLoss_Audit /"%outputPath%\%runName%\%runName%_Audit_BranchLoss.csv"/;
+File branchLoss_Audit /"%outputPath%/%runName%/%runName%_Audit_BranchLoss.csv"/;
 branchLoss_Audit.pc = 5 ;
 branchLoss_Audit.lw = 0 ;
 branchLoss_Audit.pw = 9999 ;
@@ -277,7 +277,7 @@ loop( (dt,br) $ o_branch(dt,br),
 ) ;
 
 * Audit - bus result
-File busResults_Audit /"%outputPath%\%runName%\%runName%_Audit_BusResults.csv"/;
+File busResults_Audit /"%outputPath%/%runName%/%runName%_Audit_BusResults.csv"/;
 busResults_Audit.pc = 5 ;
 busResults_Audit.lw = 0 ;
 busResults_Audit.pw = 9999 ;
@@ -292,7 +292,7 @@ loop( (dt,b,ild) $ { o_bus(dt,b) and o_busIsland_TP(dt,b,ild) },
 
 * Audit - market node result
 File
-MNodeResults_Audit  /"%outputPath%\%runName%\%runName%_Audit_MNodeResults.csv"/;
+MNodeResults_Audit  /"%outputPath%/%runName%/%runName%_Audit_MNodeResults.csv"/;
 MNodeResults_Audit.pc = 5 ;
 MNodeResults_Audit.lw = 0 ;
 MNodeResults_Audit.pw = 9999 ;
@@ -307,7 +307,7 @@ loop( (dt,o,ild) $ {o_offer(dt,o) and o_MarketNodeIsland_TP(dt,o,ild) },
 
 * Audit - branch result
 File
-brchResults_Audit  /"%outputPath%\%runName%\%runName%_Audit_BranchResults.csv"/;
+brchResults_Audit  /"%outputPath%/%runName%/%runName%_Audit_BranchResults.csv"/;
 brchResults_Audit.pc = 5 ;
 brchResults_Audit.lw = 0 ;
 brchResults_Audit.pw = 9999 ;
@@ -331,7 +331,7 @@ loop( (dt,br) $ o_branch(dt,br),
 
 * Audit - risk result
 File
-riskResults_Audit    /"%outputPath%\%runName%\%runName%_Audit_RiskResults.csv"/;
+riskResults_Audit    /"%outputPath%/%runName%/%runName%_Audit_RiskResults.csv"/;
 riskResults_Audit.pc = 5 ;
 riskResults_Audit.lw = 0 ;
 riskResults_Audit.pw = 9999 ;
@@ -411,7 +411,7 @@ loop( (dt,ild,resC) $ o_island(dt,ild),
 ) ;
 
 * Audit - objective result
-File objResults_Audit /"%outputPath%\%runName%\%runName%_Audit_ObjResults.csv"/;
+File objResults_Audit /"%outputPath%/%runName%/%runName%_Audit_ObjResults.csv"/;
 objResults_Audit.pc = 5 ;
 objResults_Audit.lw = 0 ;
 objResults_Audit.pw = 9999 ;
@@ -424,10 +424,10 @@ loop( dt,
 ) ;
 
 
-execute_unload '%outputPath%\%runName%\%vSPDinputData%_AllData.gdx' ;
+execute_unload '%outputPath%/%runName%/%vSPDinputData%_AllData.gdx' ;
 $endif.AuditReport
 *===============================================================================
-*execute_unload '%outputPath%\%runName%\%vSPDinputData%_AllData.gdx' ;
+*execute_unload '%outputPath%/%runName%/%vSPDinputData%_AllData.gdx' ;
 
 
 
