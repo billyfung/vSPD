@@ -14,7 +14,7 @@ $include vSPDsettings.inc
 $include vSPDcase.inc
 
 * If input file does not exist then go to the next input file
-$ifthen exist "%inputPath%\%vSPDinputData%.gdx"
+$ifthen exist "%inputPath%/%vSPDinputData%.gdx"
 
 
 *===============================================================================
@@ -48,7 +48,7 @@ Parameter
 scarcitySituationExists(tp,sarea) 'Flag to indicate that a scarcity situation exists (1 = Yes)'
 ;
 
-$gdxin "%inputPath%\%vSPDinputData%.gdx"
+$gdxin "%inputPath%/%vSPDinputData%.gdx"
 $load i_day i_month i_year
 $load tp = i_tradePeriod
 $load dt = i_dateTime
@@ -73,7 +73,7 @@ $if %opMode% == 'DWH' stp(tp) = yes;
 sdt(dt) = no;
 sdt(dt) $ sum[ stp(tp) $ dt2tp(dt,tp), 1 ] = yes ;
 
-execute_unload '%programPath%\vSPDperiod.gdx'
+execute_unload '%programPath%/vSPDperiod.gdx'
   stp = i_TradePeriod
   sdt = i_DateTime
   i_riskGroup
@@ -95,7 +95,7 @@ inputGDXGDate = jdate(i_year,i_month,i_day) ;
 
 * Scarcity pricing flag
 if(inputGDXGDate >= scarcityPricingGDXGDate,
-    execute_load "%inputPath%\%vSPDinputData%.gdx"
+    execute_load "%inputPath%/%vSPDinputData%.gdx"
                  ScarcitySituationExists = i_tradePeriodScarcitySituationExists;
     if( Sum[ (stp,sarea), ScarcitySituationExists(stp,sarea) ] > 0,
         putclose vSPDcase "$setglobal  scarcityExists 1 ";
