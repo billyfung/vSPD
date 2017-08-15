@@ -1,5 +1,4 @@
-# emhTrade refactor
-==============
+# Refactor
 To Do:
 - [ ] port to Linux, change filepath/name
 - [ ] accept arguments as overrides? specific TP and filename
