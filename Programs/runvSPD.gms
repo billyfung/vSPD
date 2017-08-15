@@ -62,31 +62,31 @@ putclose rep "vSPDsetup started at: " system.date " " system.time ;
 $if %licenseMode%==1 $call gams vSPDmodel.gms s=vSPDmodel
 $if errorlevel 1     $abort +++ Check vSPDmodel.lst for errors +++
 
-execute 'if exist "%outputPath%%runName%" rmdir "%outputPath%%runName%" /s /q';
-execute 'if exist "%programPath%lst"  rmdir "%programPath%lst" /s /q';
+execute 'rm -rf "%outputPath%%runName%" '
+execute 'rm -rf "%programPath%lst"';
 execute 'mkdir "%programPath%lst"';
 execute 'mkdir "%outputPath%%runName%/Programs"';
-execute 'copy /y vSPD*.inc "%outputPath%%runName%/Programs"'
-execute 'copy /y *.gms "%outputPath%%runName%/Programs"'
+execute 'cp vSPD*.inc "%outputPath%%runName%/Programs"'
+execute 'cp *.gms "%outputPath%%runName%/Programs"'
 
 $ifthen exist "%ovrdPath%%vSPDinputOvrdData%.gdx"
-  execute 'mkdir  "%outputPath%%runName%/Override"'
-  execute 'copy /y "%ovrdPath%%vSPDinputOvrdData%.gdx" "%outputPath%%runName%/Override"'
+  execute 'mkdir "%outputPath%%runName%/Override"'
+  execute 'cp "%ovrdPath%%vSPDinputOvrdData%.gdx" "%outputPath%%runName%/Override"'
 $endif
 
 $iftheni %opMode%=='PVT'
-  execute 'mkdir  "%outputPath%%runName%/Programs/Pivot"'
-  execute 'copy /y "Pivot/*.*" "%outputPath%%runName%/Programs/Pivot"'
+  execute 'mkdir "%outputPath%%runName%/Programs/Pivot"'
+  execute 'cp "Pivot/*.*" "%outputPath%%runName%/Programs/Pivot"'
 $elseifi %opMode%=='DPS' execute 'gams Demand/DPSreportSetup.gms'
-  execute 'mkdir  "%outputPath%%runName%/Programs/Demand"'
-  execute 'copy /y "Demand/*.*" "%outputPath%%runName%/Programs/Demand"'
+  execute 'mkdir "%outputPath%%runName%/Programs/Demand"'
+  execute 'cp "Demand/*.*" "%outputPath%%runName%/Programs/Demand"'
 $elseifi %opMode%=='FTR' execute 'gams FTRental/FTRreportSetup.gms'
-  execute 'copy /y FTR*.inc "%outputPath%%runName%/Programs"'
-  execute 'mkdir  "%outputPath%%runName%/Programs/FTRental"'
+  execute 'cp FTR*.inc "%outputPath%%runName%/Programs"'
+  execute 'mkdir "%outputPath%%runName%/Programs/FTRental"'
   execute 'copy /y "FTRental/*.*" "%outputPath%%runName%/Programs/FTRental"'
 $elseifi %opMode%=='DWH' execute 'gams DWmode/DWHreportSetup.gms'
-  execute 'mkdir  "%outputPath%%runName%/Programs/DWMode"'
-  execute 'copy /y "DWmode/*.*" "%outputPath%%runName%/Programs/DWMode"'
+  execute 'mkdir "%outputPath%%runName%/Programs/DWMode"'
+  execute 'cp "DWmode/*.*" "%outputPath%%runName%/Programs/DWMode"'
 $else
 $endif
 
@@ -118,7 +118,7 @@ loop(i_fileName,
    put_utility temp 'exec' / 'gams vSPDsolve.gms r=vSPDmodel lo=3 ide=1 Errmsg = 1' ;
 
 *  Copy the vSPDsolve.lst file to i_fileName.lst in ../Programs/lst/
-   put_utility temp 'shell' / 'copy vSPDsolve.lst "%programPath%"/lst/', i_fileName.tl:0, '.lst' ;
+   put_utility temp 'shell' / 'cp vSPDsolve.lst "%programPath%"/lst/', i_fileName.tl:0, '.lst' ;
 
 ) ;
 rep.ap = 1 ;
@@ -129,22 +129,20 @@ putclose rep / "Total execute time: " timeExec "(secs)" /;
 * Clean up
 *=====================================================================================
 $label cleanUp
-execute 'erase "vSPDcase.inc"' ;
-execute 'erase "riskGroup.inc"' ;
+execute 'rm "vSPDcase.inc"' ;
+execute 'rm "riskGroup.inc"' ;
 $ifthen %opMode%=='DWH'
-execute 'move /y ProgressReport.txt "%outputPath%%runName%/%runName%_RunLog.txt"';
+execute 'mv ProgressReport.txt "%outputPath%%runName%/%runName%_RunLog.txt"';
 $else
-execute 'move /y ProgressReport.txt "%outputPath%%runName%"';
+execute 'mv ProgressReport.txt "%outputPath%%runName%"';
 $endif
 *$ontext
-execute 'if exist *.lst   erase /q *.lst '
-execute 'if exist *.~gm   erase /q *.~gm '
-execute 'if exist *.lxi   erase /q *.lxi '
-execute 'if exist *.log   erase /q *.log '
-execute 'if exist *.put   erase /q *.put '
-execute 'if exist *.txt   erase /q *.txt '
-execute 'if exist *.gdx   erase /q *.gdx '
-execute 'if exist temp.*  erase /q temp.*'
+execute 'rm *.lst '
+execute 'rm *.~gm '
+execute 'rm *.lxi '
+execute 'rm *.log '
+execute 'rm *.put '
+execute 'rm *.txt '
+execute 'rm *.gdx '
+execute 'rm temp.*'
 *$offtext
-
-
