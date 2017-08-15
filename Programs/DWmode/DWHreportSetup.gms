@@ -11,15 +11,15 @@
 *=====================================================================================
 $include vSPDsettings.inc
 
-File DWsummaryResults /"%outputPath%\%runName%\%runName%_DWSummaryResults.csv"/;
+File DWsummaryResults /"%outputPath%/%runName%/%runName%_DWSummaryResults.csv"/;
 DWsummaryResults.pc = 5 ; DWsummaryResults.lw = 0 ; DWsummaryResults.pw = 9999 ;
 put DWsummaryResults 'DateTime', 'SolveStatus (1=OK)', 'SystemCost ($)', 'TotalViol (MW)' ;
 
-File DWenergyResults   /"%outputPath%\%runName%\%runName%_DWEnergyResults.csv"/;
+File DWenergyResults   /"%outputPath%/%runName%/%runName%_DWEnergyResults.csv"/;
 DWenergyResults.pc = 5 ; DWenergyResults.lw = 0 ; DWenergyResults.pw = 9999 ;
 put DWenergyResults  'DateTime', 'Node', 'Price ($/MWh)' ;
 
-File DWreserveResults /"%outputPath%\%runName%\%runName%_DWReserveResults.csv"/;
+File DWreserveResults /"%outputPath%/%runName%/%runName%_DWReserveResults.csv"/;
 DWreserveResults.pc = 5 ; DWreserveResults.lw = 0 ; DWreserveResults.pw = 9999 ;
 put DWreserveResults 'DateTime', 'Island', 'FIR Price ($/MW/h)', 'SIR Price ($/MW/h)' ;
 

@@ -12,7 +12,7 @@ $include vSPDsettings.inc
 * Defines the set of scenarios for the demand sensitivity analysis
 $include "%system.fp%Scenarios.gms"
 
-Files DRSIslandResults   /"%OutputPath%%runName%\DemandPriceSensitivity.csv"/;
+Files DRSIslandResults   /"%OutputPath%%runName%/DemandPriceSensitivity.csv"/;
 DRSIslandResults.pc = 5;  DRSIslandResults.lw = 0;  DRSIslandResults.pw = 9999;
 put DRSIslandResults;
 put 'DateTime', 'Island';
