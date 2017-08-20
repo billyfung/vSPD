@@ -43,7 +43,7 @@ Scalar LPiterationLimit                  / 2000000000 / ;
 Scalar MIPtimeLimit                      / 3600 / ;
 Scalar MIPiterationLimit                 / 2000000000 / ;
 Scalar MIPoptimality                     / 0 / ;
-$setglobal Solver                          Cplex
+$setglobal Solver                          BDMLP
 $setglobal licenseMode                     1
 
 
