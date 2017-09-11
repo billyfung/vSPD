@@ -22,7 +22,8 @@ $offecho
 *Include paths and settings files
 *=====================================================================================
 $include vSPDsettings.inc
-
+$if not set runName $set runName tmp
+$setglobal runName %runName%
 
 *=====================================================================================
 * Create a progress report file
@@ -99,7 +100,7 @@ $iftheni %opMode%=='PVT' execute 'gams Pivot\PivotReportSetup.gms'
 $elseifi %opMode%=='DPS' execute 'gams Demand\DPSreportSetup.gms'
 $elseifi %opMode%=='FTR' execute 'gams FTRental\FTRreportSetup.gms'
 $elseifi %opMode%=='DWH' execute 'gams DWmode\DWHreportSetup.gms'
-$else                    execute 'gams vSPDreportSetup.gms'
+$else                    execute 'gams vSPDreportSetup.gms --runName=%runName%'
 $endif
 
 
@@ -115,7 +116,7 @@ loop(i_fileName,
    put_utility temp 'exec' / 'gams vSPDperiod' ;
 
 *  Solve the model for the current input file
-   put_utility temp 'exec' / 'gams vSPDsolve.gms r=vSPDmodel lo=3 ide=1 Errmsg = 1' ;
+   put_utility temp 'exec' / 'gams vSPDsolve.gms r=vSPDmodel lo=3 ide=1 Errmsg = 1 --runName=%runName%' ;
 
 *  Copy the vSPDsolve.lst file to i_fileName.lst in ..\Programs\lst\
    put_utility temp 'shell' / 'copy vSPDsolve.lst "%programPath%"\lst\', i_fileName.tl:0, '.lst' ;

@@ -10,6 +10,8 @@
 *=====================================================================================
 
 $include vSPDsettings.inc
+$if not set runName $set runName tmp
+$setglobal runName %runName%
 
 File rep "Write a progess report" /"ProgressReport.txt"/ ;
 rep.lw = 0 ; rep.ap = 1 ;
